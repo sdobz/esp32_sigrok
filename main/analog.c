@@ -183,8 +183,8 @@ int* get_sample_values() {
     Use this for calibrated values
     */
     esp_adc_cal_characteristics_t characteristics;
-    esp_adc_cal_get_characteristics(V_REF, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, &characteristics);
-
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, V_REF, &characteristics);
+    
     sample_point=0;
     for(int i=0;i<NUM_SAMPLES;i++) {
         uint32_t mv=esp_adc_cal_raw_to_voltage(analouge_in_values[sample_point], &characteristics);
@@ -199,7 +199,7 @@ int* get_sample_values() {
 
 uint8_t* get_values() {
     esp_adc_cal_characteristics_t characteristics;
-    esp_adc_cal_get_characteristics(V_REF, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, &characteristics);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, V_REF, &characteristics);
 
     sample_point=0;
     for(int i=0;i<NUM_SAMPLES;i++) {
@@ -258,7 +258,7 @@ void sample_thread(void *param) {
     esp_adc_cal_characteristics_t characteristics;
     adc1_config_width(ADC_WIDTH_BIT_12);
     adc1_config_channel_atten(ADC1_TEST_CHANNEL, ADC_ATTEN_DB_11);
-    esp_adc_cal_get_characteristics(V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, &characteristics);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12, V_REF, &characteristics);
 
 #if 0
     uint32_t voltage;
